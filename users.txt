@@ -1,0 +1,1 @@
+a:3:{i:0;a:2:{s:5:"login";s:5:"user1";s:8:"password";s:60:"$2y$10$24H0B23fs11GrQ1Q0KIGOur1KgHoSRoo/IPAdAlNE8bFf/EK6CqMq";}i:1;a:2:{s:5:"login";s:5:"user2";s:8:"password";s:60:"$2y$10$jazw.KQsbVC75miab2tg0uYn.COUQ4BYrqydnpt4dNYrBQ31wjhFC";}i:2;a:2:{s:5:"login";s:5:"user3";s:8:"password";s:60:"$2y$10$Kx6YOLOSXaO252wBAuklSuyFHrZopybMtylxhzBvZPzTvN4Yci16K";}}
