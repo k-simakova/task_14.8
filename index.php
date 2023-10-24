@@ -20,23 +20,43 @@ $discount_time = $_SESSION['login_time'] + 24 * 60 * 60;
 $discount_left = $discount_time - time();
 $discount_left_str = sprintf('%02d:%02d:%02d', $discount_left / 3600, ($discount_left % 3600) / 60, $discount_left % 60);
 
-// Обрабатываем отправку формы дня рождения
+
+$next_birthday = null; // Предварительное объявление переменной
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $birth_date = strtotime($_POST['birth_date']);
+    $birth_date = new DateTime($_POST['birth_date']);
     $_SESSION['birth_date'] = $birth_date;
 }
 
-// Вычисляем время до дня рождения пользователя
+// Проверяем наличие сохраненной даты рождения в сессии
 if (isset($_SESSION['birth_date'])) {
-    $now = time();
-    $next_birthday = strtotime(date('Y-', $now) . date('m-d', $_SESSION['birth_date']));
+    $now = new DateTime(date('Y-m-d'));
+    $birth_date = $_SESSION['birth_date'];
+
+    // Устанавливаем текущий год для даты рождения
+    $birth_date->setDate($now->format('Y'), $birth_date->format('m'), $birth_date->format('d'));
+
+    // Создаем объект $next_birthday
+    $next_birthday = new DateTime($birth_date->format('Y') . '-' . $birth_date->format('m-d'));
+
+    // Если день уже прошел в текущем году, добавляем год для следующего года
     if ($next_birthday < $now) {
-        $next_birthday = strtotime('+1 year', $next_birthday);
+        $next_birthday->modify('+1 year');
     }
-    $days_left = floor(($next_birthday - $now) / (24 * 60 * 60));
+
+    // Проверяем, если день рождения сегодня
+    $is_today_birthday = $next_birthday->format('m-d') === $now->format('m-d');
+
+    if ($is_today_birthday) {
+        $days_left = 0;
+    } else {
+        $interval = $now->diff($next_birthday);
+        $days_left = $interval->days;
+    }
 } else {
     $days_left = null;
 }
+
 
 ?>
 
